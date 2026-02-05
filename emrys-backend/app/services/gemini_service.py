@@ -17,9 +17,10 @@ class GeminiService:
         error_msg = ""
         # 2026 Neural Pathway Priority (Optimized for Flash series)
         models_to_try = [
-            'gemini-1.5-flash',
-            'gemini-1.5-pro',
-            'gemini-2.0-flash-exp'
+            'models/gemini-2.0-flash',
+            'models/gemini-2.0-flash-lite',
+            'models/gemini-2.5-flash',
+            'models/gemini-flash-latest'
         ]
         
         for model_id in models_to_try:
@@ -38,12 +39,12 @@ class GeminiService:
                 chat_history = []
                 for msg in messages[-10:]:
                     role = 'user' if msg.get('sender_type') == 'user' else 'model'
-                    # Ensure parts is a list of strings
                     content = msg.get('content', '')
                     if content:
+                        # Re-formatting to the most robust structure
                         chat_history.append({
                             'role': role,
-                            'parts': [content]
+                            'parts': [{'text': content}]
                         })
 
                 # 3. Start Chat and Send Message
