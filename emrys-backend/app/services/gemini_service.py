@@ -17,11 +17,9 @@ class GeminiService:
         error_msg = ""
         # 2026 Neural Pathway Priority (Optimized for Flash series)
         models_to_try = [
-            'gemini-3-flash-preview',
-            'gemini-2.5-flash',
-            'gemini-2.0-flash',
+            'gemini-2.0-flash-exp',
             'gemini-1.5-flash',
-            'gemini-2.5-pro'
+            'gemini-1.5-pro'
         ]
         
         for model_id in models_to_try:
