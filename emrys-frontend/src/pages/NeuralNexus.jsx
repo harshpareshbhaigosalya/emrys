@@ -49,22 +49,22 @@ export default function NeuralNexus({ user }) {
             </div>
 
             {/* Header Section */}
-            <div className="relative overflow-hidden pt-12 pb-16 px-6">
+            <div className="relative overflow-hidden pt-8 sm:pt-12 pb-12 sm:pb-16 px-4 sm:px-6">
                 <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center">
 
                     {/* Back Button & Top Navigation */}
-                    <div className="w-full flex justify-between items-center mb-12">
+                    <div className="w-full flex justify-between items-center mb-10 sm:mb-12">
                         <button
                             onClick={() => navigate('/dashboard')}
-                            className="group flex items-center gap-3 px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300"
+                            className="group flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300"
                         >
-                            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Back to Archive</span>
+                            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-1 transition-transform" />
+                            <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em]">Archive</span>
                         </button>
 
                         <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10">
                             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                            <span className="text-[10px] font-black uppercase tracking-[.2em] text-white/40">Nexus Network: Synchronized</span>
+                            <span className="text-[10px] font-black uppercase tracking-[.2em] text-white/40">Registry: Active</span>
                         </div>
                     </div>
 
@@ -72,44 +72,44 @@ export default function NeuralNexus({ user }) {
                         <div className="flex justify-center mb-8">
                             <div className="px-5 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 backdrop-blur-xl flex items-center gap-3">
                                 <Globe className="w-5 h-5 text-primary-400 animate-spin-slow" />
-                                <span className="text-[11px] font-black uppercase tracking-[0.3em] text-primary-400">Verified Collective Intelligence Repository</span>
+                                <span className="text-[11px] font-black uppercase tracking-[0.3em] text-primary-400">Verified Identity Library</span>
                             </div>
                         </div>
 
-                        <h1 className="text-6xl md:text-8xl font-black font-display tracking-tight uppercase leading-[0.85] text-white">
+                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-black font-display tracking-tight uppercase leading-[0.85] text-white">
                             Neural <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-primary-500 to-cyan-400 drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">Nexus</span>
                         </h1>
 
                         <p className="text-white/40 text-sm md:text-base max-w-2xl mx-auto font-medium leading-relaxed tracking-wider py-4">
-                            Access the global library of specialized consciousness. Initialize synchronization with any objective-driven mindset from history, reality, or fiction.
+                            Access a global collection of personalities. Connect with any documented persona from history, reality, or fiction.
                         </p>
                     </div>
                 </div>
             </div>
 
             {/* Controls bar */}
-            <div className="max-w-7xl mx-auto px-6 mb-12 relative z-20">
-                <div className="glass-card p-6 flex flex-col lg:flex-row gap-8 items-center justify-between border-primary-500/20 backdrop-blur-2xl">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 sm:mb-12 relative z-20">
+                <div className="glass-card p-4 sm:p-6 flex flex-col lg:flex-row gap-4 sm:gap-8 items-center justify-between border-primary-500/20 backdrop-blur-2xl">
                     <div className="relative w-full lg:w-[400px] group">
                         <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-primary-400 transition-colors" />
                         <input
                             type="text"
-                            placeholder="Identify mindsets in the nexus..."
+                            placeholder="Locate profiles in the library..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="input-field pl-14 py-4 bg-white/5 border-white/5 focus:bg-white/10 focus:border-primary-500/50 shadow-inner"
                         />
                     </div>
 
-                    <div className="flex items-center gap-3 overflow-x-auto pb-4 lg:pb-0 w-full lg:flex-1 lg:max-w-2xl px-2 custom-scrollbar-horizontal">
+                    <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-4 lg:pb-0 w-full lg:flex-1 lg:max-w-2xl px-2 custom-scrollbar-horizontal flex-nowrap no-scrollbar">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => setSelectedCategory(cat)}
-                                className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] whitespace-nowrap transition-all duration-300 ${selectedCategory === cat
-                                        ? 'bg-primary-500 text-white shadow-[0_8px_20px_rgba(168,85,247,0.4)] border border-primary-400/50'
-                                        : 'bg-white/5 text-white/40 border border-white/10 hover:bg-white/10 hover:text-white'
+                                className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-[8px] sm:text-[10px] font-black uppercase tracking-[0.15em] whitespace-nowrap transition-all duration-300 ${selectedCategory === cat
+                                    ? 'bg-primary-500 text-white shadow-[0_8px_20px_rgba(168,85,247,0.4)] border border-primary-400/50'
+                                    : 'bg-white/5 text-white/40 border border-white/10 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
                                 {cat}
@@ -157,7 +157,7 @@ export default function NeuralNexus({ user }) {
                         {filteredPersonas.map((persona) => (
                             <div
                                 key={persona.id}
-                                className={`glass-card group hover:scale-[1.03] active:scale-[0.98] transition-all duration-500 border-white/5 hover:border-primary-500/50 cursor-pointer overflow-hidden relative flex ${viewMode === 'list' ? 'flex-row items-center p-5 ring-1 ring-white/5 hover:ring-primary-500/30' : 'flex-col p-8'}`}
+                                className={`glass-card group hover:scale-[1.03] active:scale-[0.98] transition-all duration-500 border-white/5 hover:border-primary-500/50 cursor-pointer overflow-hidden relative flex ${viewMode === 'list' ? 'flex-row items-center p-4 sm:p-5 ring-1 ring-white/5 hover:ring-primary-500/30' : 'flex-col p-6 sm:p-8'}`}
                                 onClick={() => navigate(`/persona/${persona.id}`)}
                             >
                                 {/* Premium Glowing Background Layer */}

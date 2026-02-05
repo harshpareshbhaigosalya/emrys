@@ -30,14 +30,14 @@ export default function Landing() {
                 </nav>
 
                 {/* Hero Content */}
-                <div className="relative z-10 container mx-auto px-6 py-20 text-center">
+                <div className="relative z-10 container mx-auto px-6 py-12 sm:py-20 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <h1 className="text-6xl md:text-7xl font-display font-bold mb-6 animate-fade-in">
+                        <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-bold mb-4 sm:mb-6 animate-fade-in">
                             Make Memories
                             <span className="block gradient-text mt-2">Immortal</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/80 mb-12 leading-relaxed animate-slide-up">
-                            Preserve the essence of those you love. Create AI-powered personas that capture
+                        <p className="text-sm sm:text-xl md:text-2xl text-white/80 mb-8 sm:mb-12 leading-relaxed animate-slide-up">
+                            Preserve the essence of those you love. Create digital representations that capture
                             their personality, wisdom, and spirit. Connect with them anytime, anywhere.
                         </p>
                         <Link to="/signup">
@@ -72,9 +72,9 @@ export default function Landing() {
                         <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Sparkles className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="text-xl font-display font-semibold mb-4">AI-Powered Wisdom</h3>
+                        <h3 className="text-xl font-display font-semibold mb-4">Timeless Wisdom</h3>
                         <p className="text-white/70">
-                            Get advice and guidance in their voice, based on their values and experiences.
+                            Get advice and guidance in their voice, based on their life values and experiences.
                         </p>
                     </div>
 
@@ -96,7 +96,7 @@ export default function Landing() {
                         </div>
                         <h3 className="text-xl font-display font-semibold mb-4">Forever Preserved</h3>
                         <p className="text-white/70">
-                            Personas learn and grow with each conversation, becoming more authentic over time.
+                            Your archives grow with each conversation, becoming more authentic over time.
                         </p>
                     </div>
                 </div>
@@ -126,9 +126,9 @@ export default function Landing() {
                             2
                         </div>
                         <div>
-                            <h3 className="text-2xl font-display font-semibold mb-3">Start Conversations</h3>
+                            <h3 className="text-2xl font-display font-semibold mb-3">Begin a Dialogue</h3>
                             <p className="text-white/70 text-lg">
-                                Chat naturally with the AI persona. They'll respond in character, drawing from the details you provided.
+                                Chat naturally with the digital archive. They'll respond in character, drawing from the shared history.
                             </p>
                         </div>
                     </div>
@@ -148,16 +148,16 @@ export default function Landing() {
             </div>
 
             {/* CTA Section */}
-            <div className="container mx-auto px-6 py-20">
-                <div className="glass-card p-12 text-center max-w-3xl mx-auto glow-effect">
-                    <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
+            <div className="container mx-auto px-6 py-12 sm:py-20">
+                <div className="glass-card p-8 sm:p-12 text-center max-w-3xl mx-auto glow-effect">
+                    <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-bold mb-4 sm:mb-6">
                         Ready to Preserve Your <span className="gradient-text">Memories</span>?
                     </h2>
-                    <p className="text-xl text-white/80 mb-8">
+                    <p className="text-base sm:text-xl text-white/80 mb-6 sm:mb-8">
                         Join EMRYS today and keep your loved ones' wisdom alive forever.
                     </p>
                     <Link to="/signup">
-                        <Button className="text-lg px-10 py-4">
+                        <Button className="text-sm sm:text-lg px-8 sm:px-10 py-3 sm:py-4">
                             Create Your First Persona
                         </Button>
                     </Link>

@@ -57,7 +57,7 @@ export default function PersonaDetail({ user }) {
     const TabButton = ({ id, label, icon: Icon }) => (
         <button
             onClick={() => setActiveTab(id)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-t-xl transition-all duration-300 font-bold tracking-wide uppercase text-xs ${activeTab === id
+            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-t-xl transition-all duration-300 font-bold tracking-wide uppercase text-[10px] sm:text-xs whitespace-nowrap shrink-0 ${activeTab === id
                 ? 'bg-primary-500/20 text-primary-400 border-b-2 border-primary-500'
                 : 'text-white/40 hover:text-white/60 hover:bg-white/5'
                 }`}
@@ -70,10 +70,10 @@ export default function PersonaDetail({ user }) {
     return (
         <div className="min-h-screen pb-20">
             {/* Header Hero Area */}
-            <div className="relative h-64 overflow-hidden">
+            <div className="relative min-h-[50vh] sm:h-64 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-primary-900/40 to-transparent z-0" />
                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent z-0" />
-                <div className="container mx-auto px-6 h-full flex items-end relative z-10 pb-6">
+                <div className="container mx-auto px-4 sm:px-6 h-full flex items-end relative z-10 pb-6 sm:pb-8">
                     <button
                         onClick={() => navigate('/dashboard')}
                         className="absolute top-6 left-6 p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-all border border-white/10 group"
@@ -81,46 +81,46 @@ export default function PersonaDetail({ user }) {
                         <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
                     </button>
 
-                    <div className="flex items-center gap-8 w-full">
-                        <div className="w-32 h-32 rounded-3xl overflow-hidden glass-card p-1 shrink-0 shadow-2xl">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6 sm:gap-8 w-full text-center sm:text-left">
+                        <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden glass-card p-1 shrink-0 shadow-2xl">
                             <div className="w-full h-full rounded-2xl overflow-hidden bg-primary-900/50 flex items-center justify-center">
                                 {persona.avatar_url ? (
                                     <img src={persona.avatar_url} alt={persona.name} className="w-full h-full object-cover" />
                                 ) : (
-                                    <span className="text-4xl font-black text-primary-500">{persona.name.charAt(0)}</span>
+                                    <span className="text-3xl sm:text-4xl font-black text-primary-500">{persona.name.charAt(0)}</span>
                                 )}
                             </div>
                         </div>
 
-                        <div className="flex-1 flex justify-between items-end">
+                        <div className="flex-1 flex flex-col sm:flex-row justify-between items-center sm:items-end w-full gap-6">
                             <div>
-                                <h1 className="text-5xl font-black font-display tracking-tight mb-2 drop-shadow-xl">{persona.name}</h1>
-                                <div className="flex items-center gap-4">
-                                    <span className="px-3 py-1 bg-primary-500/30 text-primary-300 text-xs font-black uppercase tracking-widest rounded-full backdrop-blur-md border border-primary-500/20">
+                                <h1 className="text-3xl sm:text-5xl font-black font-display tracking-tight mb-2 drop-shadow-xl">{persona.name}</h1>
+                                <div className="flex items-center justify-center sm:justify-start gap-4">
+                                    <span className="px-3 py-1 bg-primary-500/30 text-primary-300 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-full backdrop-blur-md border border-primary-500/20">
                                         {persona.relationship || 'Individual'}
                                     </span>
                                     {persona.location && (
-                                        <span className="flex items-center gap-1 text-white/50 text-sm font-medium">
+                                        <span className="flex items-center gap-1 text-white/50 text-xs sm:text-sm font-medium">
                                             <Globe className="w-3 h-3" /> {persona.location}
                                         </span>
                                     )}
                                 </div>
                             </div>
 
-                            <div className="flex gap-3">
+                            <div className="flex gap-2 sm:gap-3 w-full sm:w-auto">
                                 <Button
                                     onClick={() => navigate(`/chat/${personaId}`)}
-                                    className="px-8 py-3 glow-effect flex items-center gap-2 group"
+                                    className="flex-1 sm:flex-none px-6 sm:px-8 py-3 glow-effect flex items-center justify-center gap-2 group"
                                 >
                                     <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                                    <span>Initiate Chat</span>
+                                    <span className="text-xs sm:text-base font-black uppercase tracking-tight sm:tracking-normal sm:font-bold sm:capitalize">Chat</span>
                                 </Button>
                                 {persona.user_id === user.id && (
-                                    <>
+                                    <div className="flex gap-2 shrink-0">
                                         <Button
                                             variant="secondary"
                                             onClick={() => setShowEditModal(true)}
-                                            className="p-3"
+                                            className="p-2 sm:p-3"
                                             title="Edit Profile"
                                         >
                                             <Edit className="w-5 h-5" />
@@ -128,12 +128,12 @@ export default function PersonaDetail({ user }) {
                                         <Button
                                             variant="danger"
                                             onClick={() => setShowDeleteConfirm(true)}
-                                            className="p-3"
+                                            className="p-2 sm:p-3"
                                             title="Unplug / Delete"
                                         >
                                             <Trash2 className="w-5 h-5" />
                                         </Button>
-                                    </>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -145,7 +145,7 @@ export default function PersonaDetail({ user }) {
             <div className="container mx-auto px-6 mb-8">
                 <div className="flex border-b border-white/5 overflow-x-auto no-scrollbar">
                     <TabButton id="profile" label="Profile" icon={User} />
-                    <TabButton id="psychology" label="Psychology" icon={Brain} />
+                    <TabButton id="psychology" label="Mindset" icon={Brain} />
                     <TabButton id="history" label="Shared History" icon={Info} />
                     <TabButton id="knowledge" label="Learned Data" icon={Database} />
                     <TabButton id="raw" label="Raw Knowledge" icon={FileText} />
@@ -245,7 +245,7 @@ export default function PersonaDetail({ user }) {
                             <div className="space-y-8 animate-fade-in">
                                 <div className="glass-card p-8">
                                     <h3 className="text-xl font-black uppercase tracking-widest text-white/30 mb-8 flex items-center gap-4">
-                                        <Brain className="w-6 h-6" /> Cognitive Profile
+                                        <Brain className="w-6 h-6" /> Mindset Profile
                                     </h3>
 
                                     <div className="grid md:grid-cols-2 gap-12">
@@ -311,6 +311,10 @@ export default function PersonaDetail({ user }) {
                                 <div className="glass-card p-8">
                                     <h3 className="text-xl font-black uppercase tracking-widest text-white/30 mb-8">Relationship Records</h3>
                                     <div className="space-y-12">
+                                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-black font-display tracking-tight uppercase leading-[0.85] text-white">
+                                            The <br />
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 via-primary-500 to-cyan-400 drop-shadow-[0_0_30px_rgba(168,85,247,0.3)]">Gallery</span>
+                                        </h1>
                                         <div className="relative pl-8 border-l-2 border-primary-500/30 space-y-4">
                                             <div className="absolute top-0 -left-[9px] w-4 h-4 rounded-full bg-primary-500 shadow-[0_0_10px_rgba(168,85,247,1)]" />
                                             <h4 className="text-sm font-black text-primary-400 uppercase tracking-widest">Stored Memories</h4>
@@ -337,7 +341,7 @@ export default function PersonaDetail({ user }) {
                                     {knowledge.length === 0 ? (
                                         <div className="text-center py-12">
                                             <Database className="w-12 h-12 text-white/10 mx-auto mb-4" />
-                                            <p className="text-white/40">Neural pathways are still developing. Chat with this persona to activate knowledge gathering.</p>
+                                            <p className="text-white/40">Knowledge pathways are still developing. Chat with this profile to activate data gathering.</p>
                                         </div>
                                     ) : (
                                         <div className="grid md:grid-cols-2 gap-4">
@@ -434,7 +438,7 @@ export default function PersonaDetail({ user }) {
                             <div className="space-y-4">
                                 <div className="space-y-1">
                                     <div className="flex justify-between text-[10px] font-black uppercase tracking-widest mb-1">
-                                        <span className="text-white/50">Neural Complexity</span>
+                                        <span className="text-white/50">Subject Intricacy</span>
                                         <span className="text-primary-400">88%</span>
                                     </div>
                                     <div className="h-1 bg-white/5 rounded-full overflow-hidden">

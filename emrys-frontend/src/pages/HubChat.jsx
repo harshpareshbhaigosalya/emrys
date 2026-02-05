@@ -210,10 +210,10 @@ export default function HubChat({ user }) {
     return (
         <div className="min-h-screen flex flex-col bg-background">
             {/* Premium Hub Header */}
-            <header className="glass-card mx-6 mt-6 mb-4 border-b border-primary-500/10">
-                <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                    <div className="flex items-center gap-6">
-                        <button onClick={() => navigate('/dashboard')} className="p-2 hover:bg-white/10 rounded-xl transition-all">
+            <header className="glass-card mx-2 sm:mx-6 mt-4 sm:mt-6 mb-4 border-b border-primary-500/10">
+                <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+                    <div className="flex items-center gap-3 sm:gap-6">
+                        <button onClick={() => navigate('/dashboard')} className="p-1 sm:p-2 hover:bg-white/10 rounded-xl transition-all">
                             <ArrowLeft className="w-6 h-6" />
                         </button>
                         <div className="flex items-center gap-4">
@@ -229,10 +229,10 @@ export default function HubChat({ user }) {
                                 ))}
                             </div>
                             <div>
-                                <h1 className="text-xl font-black font-display tracking-tight text-white uppercase">{group.name}</h1>
+                                <h1 className="text-sm sm:text-xl font-black font-display tracking-tight text-white uppercase truncate max-w-[120px] sm:max-w-none">{group.name}</h1>
                                 <div className="flex items-center gap-2">
                                     <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/30 truncate">Collective Coherence: Optimized</span>
+                                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-white/30 truncate">Active Archive</span>
                                 </div>
                             </div>
                         </div>
@@ -240,7 +240,7 @@ export default function HubChat({ user }) {
 
                     <div className="hidden md:flex items-center gap-6">
                         <div className="flex flex-col items-end">
-                            <span className="text-[8px] font-black uppercase tracking-widest text-primary-400">Total Linked Mindsets</span>
+                            <span className="text-[8px] font-black uppercase tracking-widest text-primary-400">Total Shared Memories</span>
                             <span className="text-[10px] font-bold text-white/60">{group.group_members?.length || 0} Entities Active</span>
                         </div>
                     </div>
@@ -248,7 +248,7 @@ export default function HubChat({ user }) {
             </header>
 
             {/* Main Content Area */}
-            <div className="flex-1 container mx-auto px-6 grid lg:grid-cols-12 gap-6 overflow-hidden mb-8">
+            <div className="flex-1 container mx-auto px-3 sm:px-6 grid lg:grid-cols-12 gap-4 sm:gap-6 overflow-hidden mb-4 sm:mb-8">
 
                 {/* The Void (Chat) */}
                 <div className="lg:col-span-8 flex flex-col h-full glass-card overflow-hidden relative">
@@ -257,14 +257,14 @@ export default function HubChat({ user }) {
                         <Users className="w-96 h-96" />
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar scroll-smooth">
+                    <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 sm:space-y-8 custom-scrollbar scroll-smooth">
                         {messages.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-center p-12 space-y-6">
                                 <Users className="w-16 h-16 text-primary-500/20 animate-pulse" />
                                 <div className="space-y-2">
-                                    <h3 className="text-2xl font-black uppercase tracking-tighter text-white/40">The Council is Formed</h3>
+                                    <h3 className="text-2xl font-black uppercase tracking-tighter text-white/40">The Gallery is Formed</h3>
                                     <p className="text-white/20 text-xs max-w-sm italic leading-relaxed mx-auto px-8 py-4 border-y border-white/5">
-                                        "Unified by neural convergence, we await your command. Address the collective or target specific entities with @name."
+                                        "Unified by neural convergence, we await your command. Address the collective mind or target specific entities with @name."
                                     </p>
                                 </div>
                             </div>
@@ -302,7 +302,7 @@ export default function HubChat({ user }) {
                             ))
                         )}
 
-                        {/* Neural Retrieval / Thinking State */}
+                        {/* Shared Memory Retrieval / Thinking State */}
                         {(sending || isRetrieving) && (
                             <div className="flex justify-start animate-fade-in">
                                 <div className="space-y-3">
@@ -311,7 +311,7 @@ export default function HubChat({ user }) {
                                             <div className="w-4 h-4 rounded-full border-2 border-primary-500/30 border-t-primary-500 animate-spin" />
                                         </div>
                                         <span className="text-[8px] font-black uppercase tracking-[0.3em] text-primary-400 animate-pulse">
-                                            {isRetrieving ? 'Collective Archival Access...' : 'Generating Neural Output...'}
+                                            {isRetrieving ? 'Shared Memory Access...' : 'Generating Collective Mind Output...'}
                                         </span>
                                     </div>
                                     <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-sm px-8 py-5">
@@ -325,16 +325,16 @@ export default function HubChat({ user }) {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Collective Input */}
-                    <form onSubmit={handleSendMessage} className="p-8 border-t border-white/5 bg-white/[0.01]">
+                    {/* Shared Memory Input */}
+                    <form onSubmit={handleSendMessage} className="p-4 sm:p-8 border-t border-white/5 bg-white/[0.01]">
                         <div className="flex gap-4 relative">
                             {showMentions && filteredMembers.length > 0 && (
-                                <div className="absolute bottom-full left-0 mb-4 w-72 border-primary-500/50 overflow-hidden z-[100] animate-slide-up shadow-[0_20px_80px_rgba(0,0,0,1)] bg-slate-950 border border-white/10 rounded-2xl">
+                                <div className="absolute bottom-full left-0 mb-4 w-full sm:w-72 border-primary-500/50 overflow-hidden z-[100] animate-slide-up shadow-[0_20px_80px_rgba(0,0,0,1)] bg-slate-950 border border-white/10 rounded-2xl">
                                     <div className="p-4 border-b border-white/10 bg-primary-600/20 flex items-center gap-3">
                                         <div className="w-6 h-6 rounded-lg bg-primary-500/20 flex items-center justify-center border border-primary-500/30">
                                             <Brain className="w-3.5 h-3.5 text-primary-400" />
                                         </div>
-                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-200">Neural Targeting</span>
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-200">Shared Memory Targeting</span>
                                     </div>
                                     <div className="max-h-64 overflow-y-auto custom-scrollbar">
                                         {filteredMembers.map((m, idx) => (
@@ -371,7 +371,7 @@ export default function HubChat({ user }) {
                                 value={inputMessage}
                                 onChange={handleInputChange}
                                 onKeyDown={handleKeyDown}
-                                placeholder="Communicate with the Collective Hub... (use @ to target)"
+                                placeholder="Communicate with the Shared Memory Hub... (use @ to target)"
                                 className="input-field flex-1 pr-14 transition-all focus:border-primary-500"
                                 disabled={sending}
                             />
@@ -381,10 +381,10 @@ export default function HubChat({ user }) {
                                 </Button>
                             </div>
                         </div>
-                        <div className="mt-4 flex flex-wrap gap-4 px-2 opacity-30">
-                            <span className="text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5"><Zap className="w-2.5 h-2.5" /> Collective Engine v2.0</span>
-                            <span className="text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5"><Sparkles className="w-2.5 h-2.5" /> RAG-Enabled Search</span>
-                            <span className="text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5">@mention Targeting: Active</span>
+                        <div className="mt-3 sm:mt-4 flex flex-wrap gap-2 sm:gap-4 px-2 opacity-30">
+                            <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5"><Zap className="w-2.5 h-2.5" /> Core v2.0</span>
+                            <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5"><Sparkles className="w-2.5 h-2.5" /> Memory retrieval</span>
+                            <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-widest">Targeted Messaging</span>
                         </div>
                     </form>
                 </div>
@@ -394,7 +394,7 @@ export default function HubChat({ user }) {
                     <div className="glass-card p-8 border-l-2 border-primary-500/50 h-full flex flex-col">
                         <div className="flex items-center justify-between mb-8">
                             <h3 className="text-xs font-black uppercase tracking-[0.4em] text-white/30 flex items-center gap-3">
-                                <Users className="w-4 h-4 text-primary-400" /> Linked Mindsets
+                                <Users className="w-4 h-4 text-primary-400" /> Shared Memories
                             </h3>
                             <button
                                 onClick={() => setShowAddModal(true)}
@@ -425,7 +425,7 @@ export default function HubChat({ user }) {
                                     {activeSpeaker?.id === m.persona_id && (
                                         <div className="mt-5 pt-5 border-t border-primary-500/20 flex flex-col gap-3">
                                             <div className="flex items-center justify-between">
-                                                <span className="text-[8px] font-black uppercase text-primary-400 tracking-widest">Neural Status</span>
+                                                <span className="text-[8px] font-black uppercase text-primary-400 tracking-widest">Shared Memory Status</span>
                                                 <span className="text-[8px] font-black uppercase text-white/40 tracking-widest animate-pulse">Transmitting...</span>
                                             </div>
                                             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
@@ -433,7 +433,7 @@ export default function HubChat({ user }) {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Sparkles className="w-2.5 h-2.5 text-primary-500" />
-                                                <span className="text-[9px] font-bold text-primary-400 capitalize">{activeSpeaker.mood ? MOOD_LABELS[activeSpeaker.mood] : 'Neural Shift'}</span>
+                                                <span className="text-[9px] font-bold text-primary-400 capitalize">{activeSpeaker.mood ? MOOD_LABELS[activeSpeaker.mood] : 'Shared Memory Shift'}</span>
                                             </div>
                                         </div>
                                     )}
@@ -448,10 +448,10 @@ export default function HubChat({ user }) {
                             </div>
                             <div className="flex items-center gap-3 mb-3">
                                 <Info className="w-4 h-4 text-primary-400" />
-                                <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Sync Protocol</span>
+                                <span className="font-black uppercase tracking-widest text-xs">Send Entry</span>
                             </div>
                             <p className="text-[10px] text-white/30 leading-relaxed font-medium italic">
-                                "The council shares a integrated memory pool. Use <span className="text-primary-400">@name</span> for directed neural focus."
+                                "The gallery shares an integrated memory pool. Use <span className="text-primary-400">@name</span> for directed neural focus."
                             </p>
                         </div>
                     </div>
@@ -465,8 +465,8 @@ export default function HubChat({ user }) {
                         <div className="flex flex-col items-center text-center space-y-8">
                             <Users className="w-16 h-16 text-primary-500 animate-pulse" />
                             <div className="space-y-2">
-                                <h2 className="text-3xl font-black uppercase tracking-tighter">Collective Link Key</h2>
-                                <p className="text-white/40 text-sm">Authorise the neural collective via Google Gemini or OpenRouter to initialize the council interaction.</p>
+                                <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tighter">Connection Key</h2>
+                                <p className="text-white/40 text-xs sm:text-sm">Authorise the secure connection to initialize the council interaction.</p>
                             </div>
                             <div className="w-full space-y-4">
                                 <input

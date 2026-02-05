@@ -42,8 +42,8 @@ export default function Profile({ user }) {
     return (
         <div className="min-h-screen pb-20 bg-background selection:bg-primary-500/30">
             {/* Header */}
-            <header className="glass-card mx-6 mt-6 mb-12 border-primary-500/10">
-                <div className="container mx-auto px-8 py-5 flex justify-between items-center">
+            <header className="glass-card mx-2 sm:mx-6 mt-4 sm:mt-6 mb-8 sm:mb-12 border-primary-500/10">
+                <div className="container mx-auto px-4 sm:px-8 py-4 sm:py-5 flex justify-between items-center">
                     <div className="flex items-center gap-6">
                         <button
                             onClick={() => navigate('/dashboard')}
@@ -52,15 +52,15 @@ export default function Profile({ user }) {
                             <ArrowLeft className="w-6 h-6" />
                         </button>
                         <div>
-                            <h1 className="text-3xl font-black font-display tracking-tight uppercase text-white">Identity <span className="text-primary-500">Core</span></h1>
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30">Neural Configuration Settings</p>
+                            <h1 className="text-xl sm:text-3xl font-black font-display tracking-tight uppercase text-white">Identity <span className="text-primary-500">Core</span></h1>
+                            <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.3em] text-white/30">Configuration Settings</p>
                         </div>
                     </div>
                 </div>
             </header>
 
             {/* Content */}
-            <div className="container mx-auto px-6 max-w-5xl grid lg:grid-cols-12 gap-8">
+            <div className="container mx-auto px-4 sm:px-6 max-w-5xl grid lg:grid-cols-12 gap-6 sm:gap-8">
 
                 {/* Left Column: Profile Card */}
                 <div className="lg:col-span-4 space-y-6">
@@ -116,20 +116,19 @@ export default function Profile({ user }) {
                     )}
 
                     {/* API Key Configuration */}
-                    <div className="glass-card p-10 relative overflow-hidden group">
-                        <div className="flex items-center gap-4 mb-8">
+                    <div className="glass-card p-6 sm:p-10 relative overflow-hidden group">
+                        <div className="flex items-center gap-4 mb-6 sm:mb-8">
                             <div className="p-3 rounded-xl bg-primary-500/10 border border-primary-500/20">
-                                <Key className="w-6 h-6 text-primary-400" />
+                                <Key className="w-5 h-5 sm:w-6 sm:h-6 text-primary-400" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-black uppercase tracking-tight">Neural Sync Hub</h2>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Google Gemini & OpenRouter Integration</p>
+                                <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight">Access Hub</h2>
+                                <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-white/20">Secure Connection Integration</p>
                             </div>
                         </div>
 
                         <p className="text-white/40 text-sm leading-relaxed mb-8 italic">
-                            Your Neural Key bridges the link to advanced consciousness models. We now support
-                            <span className="text-primary-400"> Google Gemini (Free)</span> and OpenRouter.
+                            Your Access Key bridges the link to advanced memory models.
                             Stored locally on your device—never transmitted to our global core.
                         </p>
 
@@ -144,18 +143,18 @@ export default function Profile({ user }) {
                                     className="pr-12"
                                 />
                             </div>
-                            <div className="flex gap-4">
-                                <Button onClick={handleSaveApiKey} className="px-10 py-4 glow-effect flex items-center gap-3">
+                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                                <Button onClick={handleSaveApiKey} className="px-8 sm:px-10 py-3.5 sm:py-4 glow-effect flex items-center justify-center gap-3 w-full sm:w-auto">
                                     <Save className="w-5 h-5" />
-                                    <span className="font-black uppercase tracking-widest text-xs">Synchronise Key</span>
+                                    <span className="font-black uppercase tracking-widest text-xs">Sync Key</span>
                                 </Button>
                                 <a
                                     href="https://aistudio.google.com/app/apikey"
                                     target="_blank"
-                                    className="flex-1 glass-card border-primary-500/20 hover:border-primary-500/50 flex items-center justify-center gap-2 group transition-all"
+                                    className="px-6 py-3.5 glass-card border-primary-500/20 hover:border-primary-500/50 flex items-center justify-center gap-2 group transition-all w-full sm:w-auto"
                                 >
                                     <Globe className="w-4 h-4 text-primary-400 group-hover:animate-spin" />
-                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-primary-400">Get Free Gemini Key</span>
+                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-primary-400 text-center">Get Free Gemini Key</span>
                                 </a>
                             </div>
                         </div>

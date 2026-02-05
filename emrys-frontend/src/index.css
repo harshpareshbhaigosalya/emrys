@@ -19,6 +19,27 @@ h6 {
   font-family: 'Playfair Display', serif;
 }
 
+/* Responsive Font Sizes */
+@layer base {
+  html {
+    font-size: 14px;
+  }
+  @media (min-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+  }
+}
+
+/* Utility for hiding scrollbars but keeping functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Glassmorphism Card */
 .glass-card {
   background: rgba(255, 255, 255, 0.1);
