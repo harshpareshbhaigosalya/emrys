@@ -10,6 +10,7 @@ import Modal from '../components/common/Modal'
 import Loading from '../components/common/Loading'
 import NeuralFeed from '../components/dashboard/NeuralFeed'
 import { authHelpers, personaHelpers, groupHelpers } from '../services/supabase'
+import ApiKeyOnboarding from '../components/dashboard/ApiKeyOnboarding'
 
 export default function Dashboard({ user }) {
     const navigate = useNavigate()
@@ -20,8 +21,10 @@ export default function Dashboard({ user }) {
     const [showCreateGroupModal, setShowCreateGroupModal] = useState(false)
     const [userProfile, setUserProfile] = useState(null)
     const [activeView, setActiveView] = useState('all') // 'all', 'personas', 'hubs', 'nexus'
+    const [hasApiKey, setHasApiKey] = useState(!!localStorage.getItem('openrouter_api_key'))
 
     useEffect(() => {
+        setHasApiKey(!!localStorage.getItem('openrouter_api_key'))
         loadData()
     }, [user])
 
@@ -112,7 +115,7 @@ export default function Dashboard({ user }) {
                 <div className="grid lg:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-16">
                     <div className="lg:col-span-3 glass-card p-6 sm:p-10 relative overflow-hidden group">
                         {/* Decorative Background Elements */}
-                        
+
                         <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/10 rounded-full blur-[100px] pointer-events-none" />
 
                         <div className="absolute top-5 right-10 opacity-[0.05] group-hover:opacity-[0.1] transition-all duration-700 select-none pointer-events-none hidden sm:block">
@@ -172,111 +175,116 @@ export default function Dashboard({ user }) {
                     </div>
                 </div>
 
-                {/* Main Repository Section */}
-                <div className="space-y-8 sm:space-y-12">
-                    {/* View Switcher Tabs */}
-                    <div className="flex gap-4 sm:gap-8 border-b border-white/5 pb-2 overflow-x-auto no-scrollbar flex-nowrap">
-                        <button
-                            onClick={() => setActiveView('all')}
-                            className={`pb-4 px-2 text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeView === 'all' ? 'text-primary-400 border-b-2 border-primary-500' : 'text-white/40 hover:text-white/60'}`}
-                        >
-                            Archive
-                        </button>
-                        <button
-                            onClick={() => setActiveView('personas')}
-                            className={`pb-4 px-2 text-xs font-black uppercase tracking-widest transition-all ${activeView === 'personas' ? 'text-primary-400 border-b-2 border-primary-500' : 'text-white/40 hover:text-white/60'}`}
-                        >
-                            Individual Personas
-                        </button>
-                        <button
-                            onClick={() => setActiveView('hubs')}
-                            className={`pb-4 px-2 text-xs font-black uppercase tracking-widest transition-all ${activeView === 'hubs' ? 'text-primary-400 border-b-2 border-primary-500' : 'text-white/40 hover:text-white/60'}`}
-                        >
-                            Memory Hubs
-                        </button>
-                        <button
-                            onClick={() => navigate('/nexus')}
-                            className={`pb-4 px-2 text-xs font-black uppercase tracking-widest transition-all text-cyan-400 hover:text-cyan-300 flex items-center gap-2`}
-                        >
-                            <Sparkles className="w-3 h-3" />
-                            The Nexus (Global Library)
-                        </button>
+                {!hasApiKey ? (
+                    <div className="py-12 px-4 sm:px-0">
+                        <ApiKeyOnboarding />
                     </div>
+                ) : (
+                    <div className="space-y-8 sm:space-y-12">
+                        {/* View Switcher Tabs */}
+                        <div className="flex gap-4 sm:gap-8 border-b border-white/5 pb-2 overflow-x-auto no-scrollbar flex-nowrap">
+                            <button
+                                onClick={() => setActiveView('all')}
+                                className={`pb-4 px-2 text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeView === 'all' ? 'text-primary-400 border-b-2 border-primary-500' : 'text-white/40 hover:text-white/60'}`}
+                            >
+                                Archive
+                            </button>
+                            <button
+                                onClick={() => setActiveView('personas')}
+                                className={`pb-4 px-2 text-xs font-black uppercase tracking-widest transition-all ${activeView === 'personas' ? 'text-primary-400 border-b-2 border-primary-500' : 'text-white/40 hover:text-white/60'}`}
+                            >
+                                Individual Personas
+                            </button>
+                            <button
+                                onClick={() => setActiveView('hubs')}
+                                className={`pb-4 px-2 text-xs font-black uppercase tracking-widest transition-all ${activeView === 'hubs' ? 'text-primary-400 border-b-2 border-primary-500' : 'text-white/40 hover:text-white/60'}`}
+                            >
+                                Memory Hubs
+                            </button>
+                            <button
+                                onClick={() => navigate('/nexus')}
+                                className={`pb-4 px-2 text-xs font-black uppercase tracking-widest transition-all text-cyan-400 hover:text-cyan-300 flex items-center gap-2`}
+                            >
+                                <Sparkles className="w-3 h-3" />
+                                The Nexus (Global Library)
+                            </button>
+                        </div>
 
-                    {/* Content Grid with Feed Sidebar */}
-                    <div className="grid lg:grid-cols-12 gap-12">
-                        {/* Main Content Column */}
-                        <div className="lg:col-span-8 space-y-12">
-                            {/* Neural Hubs (Groups) */}
-                            {(activeView === 'all' || activeView === 'hubs') && groups.length > 0 && (
-                                <div className="space-y-6">
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/20 flex items-center gap-3">
-                                            <Users className="w-4 h-4" /> Active Hubs
-                                        </h3>
-                                        {activeView === 'all' && (
-                                            <button onClick={() => setActiveView('hubs')} className="text-[10px] font-black uppercase tracking-widest text-primary-500 flex items-center gap-1 hover:gap-2 transition-all">
-                                                View All Hubs <ArrowRight className="w-3 h-3" />
-                                            </button>
-                                        )}
-                                    </div>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        {groups.map(group => (
-                                            <GroupCard
-                                                key={group.id}
-                                                group={group}
-                                                onClick={() => navigate(`/hub/${group.id}`)}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Personas Section */}
-                            {(activeView === 'all' || activeView === 'personas') && (
-                                <div className="space-y-6">
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/20 flex items-center gap-3">
-                                            <User className="w-4 h-4" /> Preserved Personas
-                                        </h3>
-                                        {activeView === 'all' && personas.length > 0 && (
-                                            <button onClick={() => setActiveView('personas')} className="text-[10px] font-black uppercase tracking-widest text-primary-500 flex items-center gap-1 hover:gap-2 transition-all">
-                                                Explore Archive <ArrowRight className="w-3 h-3" />
-                                            </button>
-                                        )}
-                                    </div>
-
-                                    {personas.length === 0 ? (
-                                        <div className="glass-card p-16 text-center">
-                                            <User className="w-16 h-16 text-primary-500/20 mx-auto mb-6" />
-                                            <h4 className="text-2xl font-black mb-2 uppercase tracking-tight">The archive is empty</h4>
-                                            <p className="text-white/50 text-sm max-w-xs mx-auto mb-8 font-medium italic">Begin by preserving your first human essence in our digital neural web.</p>
-                                            <Button onClick={() => setShowCreatePersonaModal(true)} className="px-10 py-4 glow-effect uppercase font-black tracking-widest text-xs">
-                                                Begin Preservation
-                                            </Button>
+                        {/* Content Grid with Feed Sidebar */}
+                        <div className="grid lg:grid-cols-12 gap-12">
+                            {/* Main Content Column */}
+                            <div className="lg:col-span-8 space-y-12">
+                                {/* Neural Hubs (Groups) */}
+                                {(activeView === 'all' || activeView === 'hubs') && groups.length > 0 && (
+                                    <div className="space-y-6">
+                                        <div className="flex justify-between items-center">
+                                            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/20 flex items-center gap-3">
+                                                <Users className="w-4 h-4" /> Active Hubs
+                                            </h3>
+                                            {activeView === 'all' && (
+                                                <button onClick={() => setActiveView('hubs')} className="text-[10px] font-black uppercase tracking-widest text-primary-500 flex items-center gap-1 hover:gap-2 transition-all">
+                                                    View All Hubs <ArrowRight className="w-3 h-3" />
+                                                </button>
+                                            )}
                                         </div>
-                                    ) : (
                                         <div className="grid md:grid-cols-2 gap-6">
-                                            {personas.map(persona => (
-                                                <PersonaCard
-                                                    key={persona.id}
-                                                    persona={persona}
-                                                    onClick={() => navigate(`/chat/${persona.id}`)}
-                                                    onViewProfile={() => navigate(`/persona/${persona.id}`)}
+                                            {groups.map(group => (
+                                                <GroupCard
+                                                    key={group.id}
+                                                    group={group}
+                                                    onClick={() => navigate(`/hub/${group.id}`)}
                                                 />
                                             ))}
                                         </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
+                                    </div>
+                                )}
 
-                        {/* Sidebar Column: Neural Feed */}
-                        <div className="lg:col-span-4">
-                            <NeuralFeed user={user} personas={personas} />
+                                {/* Personas Section */}
+                                {(activeView === 'all' || activeView === 'personas') && (
+                                    <div className="space-y-6">
+                                        <div className="flex justify-between items-center">
+                                            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/20 flex items-center gap-3">
+                                                <User className="w-4 h-4" /> Preserved Personas
+                                            </h3>
+                                            {activeView === 'all' && personas.length > 0 && (
+                                                <button onClick={() => setActiveView('personas')} className="text-[10px] font-black uppercase tracking-widest text-primary-500 flex items-center gap-1 hover:gap-2 transition-all">
+                                                    Explore Archive <ArrowRight className="w-3 h-3" />
+                                                </button>
+                                            )}
+                                        </div>
+
+                                        {personas.length === 0 ? (
+                                            <div className="glass-card p-16 text-center">
+                                                <User className="w-16 h-16 text-primary-500/20 mx-auto mb-6" />
+                                                <h4 className="text-2xl font-black mb-2 uppercase tracking-tight">The archive is empty</h4>
+                                                <p className="text-white/50 text-sm max-w-xs mx-auto mb-8 font-medium italic">Begin by preserving your first human essence in our digital neural web.</p>
+                                                <Button onClick={() => setShowCreatePersonaModal(true)} className="px-10 py-4 glow-effect uppercase font-black tracking-widest text-xs">
+                                                    Begin Preservation
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <div className="grid md:grid-cols-2 gap-6">
+                                                {personas.map(persona => (
+                                                    <PersonaCard
+                                                        key={persona.id}
+                                                        persona={persona}
+                                                        onClick={() => navigate(`/chat/${persona.id}`)}
+                                                        onViewProfile={() => navigate(`/persona/${persona.id}`)}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Sidebar Column: Neural Feed */}
+                            <div className="lg:col-span-4">
+                                <NeuralFeed user={user} personas={personas} />
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
 
             {/* Modals */}

@@ -24,6 +24,7 @@ h6 {
   html {
     font-size: 14px;
   }
+
   @media (min-width: 768px) {
     html {
       font-size: 16px;
@@ -35,6 +36,7 @@ h6 {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -466,4 +468,21 @@ select.input-field option {
   margin-bottom: 0.75rem;
   font-style: italic;
   color: rgba(255, 255, 255, 0.6);
+}
+
+/* Landing Page Specials */
+.font-display {
+  font-family: 'Outfit', sans-serif !important;
+}
+
+.mix-blend-lighten {
+  mix-blend-mode: lighten;
+}
+
+.interactive {
+  cursor: pointer;
+}
+
+.font-italic {
+  font-style: italic;
 }

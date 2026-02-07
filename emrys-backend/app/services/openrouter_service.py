@@ -111,12 +111,27 @@ class OpenRouterService:
         
         system_prompt = self.build_ultra_realistic_prompt(persona, learned_knowledge, relevant_memories, current_mood)
         if additional_context:
-            system_prompt = f"{additional_context}\n\n{system_prompt}"
+            system_prompt = f"SOCIAL CONTEXT: {additional_context}\n\n{system_prompt}"
         
         api_messages = [{"role": "system", "content": system_prompt}]
+        
+        # 2. Format History with Identity Awareness
         for msg in messages[-15:]:
-            role = "user" if msg.get('sender_type') == 'user' else "assistant"
-            api_messages.append({"role": role, "content": msg.get('content', '')})
+            sender_type = msg.get('sender_type')
+            msg_persona_id = msg.get('persona_id')
+            is_self = sender_type == 'persona' and str(msg_persona_id) == str(persona.get('id'))
+            
+            # Use 'assistant' only for the persona itself
+            role = "assistant" if is_self else "user"
+            
+            content = msg.get('content', '')
+            # If it's another persona, we treat it as 'user' (external input) but prefix it
+            if sender_type == 'persona' and not is_self:
+                p_name = msg.get('persona_name') or "Another Persona"
+                content = f"[{p_name}]: {content}"
+            
+            if content:
+                api_messages.append({"role": role, "content": content})
         
         api_messages.append({"role": "user", "content": user_message})
         

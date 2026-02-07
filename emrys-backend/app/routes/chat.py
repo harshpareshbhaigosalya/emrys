@@ -182,8 +182,16 @@ def group_send_message():
             responders = personas[:3] # Limit to 3 for faster initial response
         
         # 5. Get Combined History
-        history_res = supabase.table('messages').select('*').eq('conversation_id', conversation['id']).order('created_at', desc=True).limit(15).execute()
-        history = history_res.data[::-1] if history_res.data else []
+        history_res = supabase.table('messages').select('*, personas(name)').eq('conversation_id', conversation['id']).order('created_at', desc=True).limit(20).execute()
+        raw_history = history_res.data[::-1] if history_res.data else []
+        
+        # Flatten persona name for services
+        history = []
+        for h in raw_history:
+            msg = h.copy()
+            if h.get('personas'):
+                msg['persona_name'] = h['personas'].get('name')
+            history.append(msg)
         
         # Determine service based on key prefix
         is_gemini = api_key.startswith('AIzaSy')
@@ -215,20 +223,18 @@ def group_send_message():
                         model='fast',
                         additional_context=group_ctx,
                         relevant_memories=memories,
-                        current_mood=current_mood # This was a bug in previous version? sent mood instead of current_mood object
+                        current_mood=mood # Fixed: was current_mood (undefined)
                     )
                 
                 if ai_res['success']:
                     resp_content = ai_res['response']
                     
-                    # Save to DB - We don't save persona_id if it causes schema errors, 
-                    # but we'll try a safe approach
+                    # Save to DB
                     msg_obj = {
                         'conversation_id': conversation['id'], 
                         'sender_type': 'persona', 
                         'content': resp_content
                     }
-                    # Try to include persona_id if possible
                     if p.get('id'): msg_obj['persona_id'] = p['id']
                     
                     supabase.table('messages').insert(msg_obj).execute()
@@ -241,7 +247,12 @@ def group_send_message():
                     })
                     
                     # Update internal history for next persona in loop
-                    history.append({'sender_type': 'persona', 'content': resp_content})
+                    history.append({
+                        'sender_type': 'persona', 
+                        'persona_id': p.get('id'),
+                        'persona_name': p.get('name'),
+                        'content': resp_content
+                    })
             except Exception as loop_e:
                 print(f"Error in responder loop for {p.get('name')}: {str(loop_e)}")
                 continue
