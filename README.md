@@ -15,6 +15,20 @@ From individual memory preservation to group-chat dynamic synthesis in the "Hubs
 
 ---
 
+## 🎥 Project Demo
+
+<div align="center">
+
+### ▶️ [WATCH EMRYS — FULL PROJECT DEMONSTRATION](https://www.youtube.com/watch?v=iHM0cdWlwCE)
+
+[![EMRYS Project Demo](https://img.youtube.com/vi/iHM0cdWlwCE/maxresdefault.jpg)](https://www.youtube.com/watch?v=iHM0cdWlwCE)
+
+**Click the preview above to watch the complete project demonstration.**
+
+</div>
+
+---
+
 ## ⚡ Key Features
 
 ### 🧠 Persona Manifestation
