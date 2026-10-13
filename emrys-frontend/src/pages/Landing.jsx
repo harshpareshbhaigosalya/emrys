@@ -546,9 +546,7 @@ export default function Landing() {
 
                     <div className="grid md:grid-cols-3 gap-12">
                         {[
-                            { name: "Harsh Gosaliya", role: "Lead Systems Architect" },
-                            { name: "Swayam Mamtora", role: "AI Core Engineer" },
-                            { name: "Dhanvin Dave", role: "Interface Specialist" }
+                            { name: "Harsh Gosaliya", role: "Lead Systems Architect" }
                         ].map((member, i) => (
                             <motion.div
                                 key={i}
