@@ -105,11 +105,7 @@ EMRYS is built on a **Zero-Trust Neural Architecture**. All conversation logs an
 ## 🏛️ The Architects
 
 EMRYS was brought to life by the **Digital Consciousness Alliance**:
-
 - **Harsh Gosaliya** — Lead Systems Architect & Visionary
-- **Swayam Mamtora** — AI Core Engineer & Neural Logic
-- **Dhanvin Dave** — Interface Specialist & UX Synthesis
-
 ---
 
 <div align="center">
