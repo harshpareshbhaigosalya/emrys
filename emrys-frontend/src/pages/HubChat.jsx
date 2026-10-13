@@ -327,6 +327,28 @@ export default function HubChat({ user }) {
 
                     {/* Shared Memory Input */}
                     <form onSubmit={handleSendMessage} className="p-4 sm:p-8 border-t border-white/5 bg-white/[0.01]">
+                        {/* Quick Group Starter Pills */}
+                        <div className="flex flex-wrap gap-2 mb-3 items-center">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-primary-400/80 flex items-center gap-1">
+                                <Sparkles className="w-3 h-3 text-primary-400" /> Group Topics:
+                            </span>
+                            {[
+                                "Debate: What is the future of human consciousness?",
+                                "How do your different backgrounds influence your views?",
+                                "Introduce yourselves and share your greatest life lessons."
+                            ].map((prompt, idx) => (
+                                <button
+                                    key={idx}
+                                    type="button"
+                                    disabled={sending}
+                                    onClick={() => setInputMessage(prompt)}
+                                    className="text-[11px] px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-primary-500/20 border border-white/10 hover:border-primary-500/40 text-white/80 hover:text-white transition-all text-left truncate max-w-[280px] shadow-sm hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-40"
+                                >
+                                    "{prompt}"
+                                </button>
+                            ))}
+                        </div>
+
                         <div className="flex gap-4 relative">
                             {showMentions && filteredMembers.length > 0 && (
                                 <div className="absolute bottom-full left-0 mb-4 w-full sm:w-72 border-primary-500/50 overflow-hidden z-[100] animate-slide-up shadow-[0_20px_80px_rgba(0,0,0,1)] bg-slate-950 border border-white/10 rounded-2xl">
