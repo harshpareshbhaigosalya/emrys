@@ -223,12 +223,16 @@ export default function EnhancedPersonaForm({ userId, persona = null, onSuccess,
         }
 
         setIsSynthesizing(true)
-        setError('')
-        const apiKey = localStorage.getItem('openrouter_api_key')
+        const apiKey = (localStorage.getItem('openrouter_api_key') || '').trim()
+        if (!apiKey) {
+            setError('Please save your Gemini or OpenRouter API key in Profile settings first.')
+            setIsSynthesizing(false)
+            return
+        }
 
         try {
             const response = await axios.post(`${BACKEND_URL}/api/persona/synthesize`, {
-                name: formData.name,
+                name: formData.name.trim(),
                 api_key: apiKey
             })
 
@@ -247,7 +251,8 @@ export default function EnhancedPersonaForm({ userId, persona = null, onSuccess,
             setCurrentStep(2)
         } catch (err) {
             console.error('Synthesis failed:', err)
-            setError('AI Synthesis failed. Please check your API key in the chat settings.')
+            const serverMsg = err.response?.data?.error || err.message || 'AI Synthesis failed. Please check your API key in settings.'
+            setError(serverMsg)
         } finally {
             setIsSynthesizing(false)
         }

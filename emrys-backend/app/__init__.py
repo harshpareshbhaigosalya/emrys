@@ -21,10 +21,10 @@ def create_app(config_name=None):
                 "supports_credentials": True
             }
         })
-        print("🌐 CORS enabled for all origins (development mode)")
+        print("[CORS] CORS enabled for all origins (development mode)")
     else:
         CORS(app, origins=app.config['CORS_ORIGINS'])
-        print(f"🌐 CORS enabled for: {app.config['CORS_ORIGINS']}")
+        print(f"[CORS] CORS enabled for: {app.config['CORS_ORIGINS']}")
     
     # Register blueprints
     from app.routes import chat, life, persona

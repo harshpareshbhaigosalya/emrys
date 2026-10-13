@@ -25,10 +25,11 @@ def send_message():
         user_id = data.get('user_id')
         persona_id = data.get('persona_id')
         message = data.get('message')
-        api_key = data.get('api_key')
+        raw_key = data.get('api_key') or current_app.config.get('OPENROUTER_API_KEY') or os.getenv('GEMINI_API_KEY')
+        api_key = (raw_key or '').strip()
         
         if not all([user_id, persona_id, message, api_key]):
-            return jsonify({'error': 'Missing fields for neural synchronization'}), 400
+            return jsonify({'error': 'Missing fields or API key for neural synchronization'}), 400
         
         supabase = get_supabase()
         
@@ -65,9 +66,8 @@ def send_message():
         }).execute()
         
         # 6. Request AI Response
-        
-        # Determine service based on key prefix
-        if api_key.startswith('AIzaSy'):
+        is_gemini = api_key.startswith('AIza')
+        if is_gemini:
             ai_service = GeminiService(api_key=api_key)
             ai_result = ai_service.chat(
                 persona=persona,
@@ -100,13 +100,6 @@ def send_message():
             'content': ai_response
         }).execute()
         
-        # 8. Background Knowledge Extraction (Silent)
-        try:
-            if not api_key.startswith('AIzaSy'):
-                openrouter = OpenRouterService(api_key=api_key)
-                openrouter.extract_knowledge(message, ai_response, persona['name'])
-        except: pass
-        
         return jsonify({
             'response': ai_response,
             'mood': ai_result.get('mood'),
@@ -121,11 +114,12 @@ def send_message():
 @bp.route('/group/send', methods=['POST'])
 def group_send_message():
     try:
-        data = request.json
+        data = request.json or {}
         user_id = data.get('user_id')
         group_id = data.get('group_id')
         message = data.get('message')
-        api_key = data.get('api_key')
+        raw_key = data.get('api_key') or current_app.config.get('OPENROUTER_API_KEY') or os.getenv('GEMINI_API_KEY')
+        api_key = (raw_key or '').strip()
         
         supabase = get_supabase()
         
@@ -194,7 +188,7 @@ def group_send_message():
             history.append(msg)
         
         # Determine service based on key prefix
-        is_gemini = api_key.startswith('AIzaSy')
+        is_gemini = api_key.startswith('AIza')
         ai_engine = GeminiService(api_key=api_key) if is_gemini else OpenRouterService(api_key=api_key)
         final_responses = []
         

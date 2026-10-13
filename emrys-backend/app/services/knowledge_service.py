@@ -18,7 +18,7 @@ class KnowledgeService:
     def extract_text_from_url(url):
         """Extract text from a URL (Supabase storage)"""
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
             response.raise_for_status()
             
             # Identify file type

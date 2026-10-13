@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Debug: Print loaded values
-print("\n🔧 Loading Configuration...")
+print("\n[CONFIG] Loading Configuration...")
 print(f"SUPABASE_URL: {os.getenv('SUPABASE_URL', 'NOT SET')}")
 print(f"SUPABASE_KEY: {os.getenv('SUPABASE_KEY', 'NOT SET')[:20]}..." if os.getenv('SUPABASE_KEY') else "SUPABASE_KEY: NOT SET")
 print(f"OPENROUTER_API_KEY: {os.getenv('OPENROUTER_API_KEY', 'NOT SET')[:20]}..." if os.getenv('OPENROUTER_API_KEY') else "OPENROUTER_API_KEY: NOT SET")

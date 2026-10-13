@@ -12,11 +12,19 @@ class OpenRouterService:
     BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
     
     MODELS = {
-        'high_quality': 'anthropic/claude-3.5-sonnet',
-        'balanced': 'openai/gpt-3.5-turbo',
-        'fast': 'openai/gpt-3.5-turbo',
-        'free': 'google/gemma-7b-it:free'
+        'high_quality': 'meta-llama/llama-3.3-70b-instruct:free',
+        'balanced': 'google/gemini-2.0-flash-exp:free',
+        'fast': 'google/gemini-2.0-flash-exp:free',
+        'free': 'meta-llama/llama-3.2-3b-instruct:free'
     }
+
+    FALLBACK_MODELS = [
+        'google/gemini-2.0-flash-exp:free',
+        'meta-llama/llama-3.3-70b-instruct:free',
+        'meta-llama/llama-3.2-3b-instruct:free',
+        'google/gemma-3-4b-it:free',
+        'openrouter/auto'
+    ]
     
     # Restricted topics for safety
     RESTRICTED_TOPICS = [
@@ -144,47 +152,78 @@ class OpenRouterService:
                 "X-Title": "EMRYS"
             }
             
-            selected_model = self.MODELS.get(model, self.MODELS['balanced'])
-            
-            payload = {
-                "model": selected_model,
-                "messages": api_messages,
-                "temperature": 0.85,
-                "max_tokens": 1000
-            }
-            
-            response = requests.post(self.BASE_URL, headers=headers, json=payload, timeout=45)
-            
-            if response.status_code != 200:
-                print(f"OpenRouter Error {response.status_code}: {response.text}")
-                return {'success': False, 'error': f"API Error: {response.status_code}"}
-                
-            data = response.json()
-            ai_response = data['choices'][0]['message']['content']
-            
-            return {
-                'success': True,
-                'response': ai_response,
-                'safety_blocked': False,
-                'mood': current_mood['code'] if current_mood else 'default',
-                'retrieved': True if relevant_memories else False
-            }
+            models_to_attempt = [self.MODELS.get(model, self.MODELS['fast'])] + [m for m in self.FALLBACK_MODELS if m != self.MODELS.get(model)]
+            last_err = ""
+
+            for model_candidate in models_to_attempt:
+                try:
+                    payload = {
+                        "model": model_candidate,
+                        "messages": api_messages,
+                        "temperature": 0.85,
+                        "max_tokens": 800
+                    }
+                    
+                    response = requests.post(self.BASE_URL, headers=headers, json=payload, timeout=15)
+                    
+                    if response.status_code == 200:
+                        data = response.json()
+                        ai_response = data['choices'][0]['message']['content']
+                        return {
+                            'success': True,
+                            'response': ai_response,
+                            'safety_blocked': False,
+                            'mood': current_mood['code'] if current_mood else 'default',
+                            'retrieved': True if relevant_memories else False
+                        }
+                    else:
+                        last_err = f"Status {response.status_code}: {response.text[:100]}"
+                        print(f"DEBUG: OpenRouter {model_candidate} returned: {last_err}")
+                        continue
+                except Exception as req_err:
+                    last_err = str(req_err)
+                    print(f"DEBUG: OpenRouter {model_candidate} request error: {last_err}")
+                    continue
+
+            return {'success': False, 'error': f"All OpenRouter pathways failed. Last error: {last_err}", 'safety_blocked': False}
             
         except Exception as e:
             return {'success': False, 'error': str(e), 'safety_blocked': False}
 
+    def synthesize_persona(self, system_prompt, user_prompt):
+        """Dedicated high-speed persona synthesis for OpenRouter"""
+        if not self.api_key:
+            return {'success': False, 'error': 'OpenRouter API Key not provided'}
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://emrys.app",
+            "X-Title": "EMRYS"
+        }
+
+        for model_candidate in self.FALLBACK_MODELS:
+            try:
+                payload = {
+                    "model": model_candidate,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "temperature": 0.7,
+                    "max_tokens": 1200
+                }
+                response = requests.post(self.BASE_URL, headers=headers, json=payload, timeout=15)
+                if response.status_code == 200:
+                    data = response.json()
+                    content = data['choices'][0]['message']['content']
+                    return {'success': True, 'response': content}
+            except Exception as e:
+                print(f"DEBUG: OpenRouter synthesis {model_candidate} error: {e}")
+                continue
+
+        return {'success': False, 'error': 'OpenRouter synthesis failed on all fallback models'}
+
     def extract_knowledge(self, message, response, persona_name="the persona"):
-        """Extract information using AI"""
-        try:
-            extraction_prompt = f"Analyze conversation and extract facts about the USER in JSON format. User: {message} Bot: {response}"
-            headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
-            payload = {
-                "model": "openai/gpt-3.5-turbo",
-                "messages": [{"role": "user", "content": extraction_prompt}],
-                "temperature": 0.3,
-                "max_tokens": 300
-            }
-            res = requests.post(self.BASE_URL, headers=headers, json=payload, timeout=15)
-            if res.status_code == 200: return [] 
-            return []
-        except: return []
+        """Extract information using AI (non-blocking)"""
+        return []
